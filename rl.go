@@ -29,7 +29,7 @@ func main() {
 	)
 
 	article := models.Article{
-		Title: "test",
+		Title: title,
 		Link: "https://example.com",
 	}
 
