@@ -45,6 +45,10 @@ func (c NotionClient) buildRequest(method string, path string, body io.Reader) *
 	return req
 }
 
+/*
+ * MEMO: 使ってないけど、とりあえず残しておく
+ * 初回とかに疎通確認に使えると良いかも
+ */
 func (c NotionClient) GetDatabase() {
 	path := "databases/" + c.config.databaseId
 	req := c.buildRequest("GET", path, nil)
