@@ -37,7 +37,7 @@ func main() {
 
 	article := models.Article{
 		Title: title,
-		Link: "https://example.com",
+		Link: url,
 	}
 
 	c.PostArticle(article)
