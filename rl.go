@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"rl/clients"
 	"rl/models"
+	"rl/scraper"
 )
 
 const ( // MEMO: 仮置き
@@ -12,6 +15,13 @@ const ( // MEMO: 仮置き
 )
 
 func main() {
+	url := "https://example.com"
+	title, err := scraper.FetchTitle(url)
+	if err != nil {
+		log.Fatalf("Error fetching title: %v", err)
+	}
+	fmt.Println(title)
+
 	c := clients.NewNotionClient(
 		apiKey,
 		databaseId,
