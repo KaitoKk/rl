@@ -59,4 +59,3 @@ func isValidUrl(url string) bool {
 	re := regexp.MustCompile(`^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$`)
 	return re.MatchString(url)
 }
-// "https://www.notion.so/1f99b3341629486a961b5a105e8b41d1?v=444d419cb5da4b7e8b26a0d200252a81&pvs=4"
