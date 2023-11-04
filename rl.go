@@ -11,13 +11,16 @@ import (
 	"rl/scraper"
 )
 
-const ( // MEMO: 仮置き
-	apiKey = "..."
-	databaseId = "aaa"
-	viewId = "bbb"
+var (
+	apiKey     = os.Getenv("NOTION_API_KEY")
+	databaseId = os.Getenv("NOTION_DATABASE_ID")
 )
 
 func main() {
+	if err := checkVar(); err != nil {
+		log.Fatalf("Error checking env var: %v", err)
+	}
+
 	if err := checkArgs(); err != nil {
 		log.Fatalf("Error checking args: %v", err)
 	}
@@ -32,12 +35,11 @@ func main() {
 	c := clients.NewNotionClient(
 		apiKey,
 		databaseId,
-		viewId,
 	)
 
 	article := models.Article{
 		Title: title,
-		Link: url,
+		Link:  url,
 	}
 
 	c.PostArticle(article)
@@ -58,4 +60,14 @@ func checkArgs() error {
 func isValidUrl(url string) bool {
 	re := regexp.MustCompile(`^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$`)
 	return re.MatchString(url)
+}
+
+func checkVar() error {
+	if apiKey == "" {
+		return errors.New("環境変数NOTION_API_KEYがありません")
+	}
+	if databaseId == "" {
+		return errors.New("環境変数NOTION_DATABASE_IDがありません")
+	}
+	return nil
 }
