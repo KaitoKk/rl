@@ -13,9 +13,8 @@ import (
 const API_BASE_URL = "https://api.notion.com/v1/"
 
 type NotionConfig struct {
-	apiKey string
+	apiKey     string
 	databaseId string
-	viewId string
 }
 
 type NotionClient struct {
@@ -23,12 +22,11 @@ type NotionClient struct {
 	client *http.Client
 }
 
-func NewNotionClient(apiKey string, databaseId string, viewId string) *NotionClient {
+func NewNotionClient(apiKey string, databaseId string) *NotionClient {
 	return &NotionClient{
 		config: NotionConfig{
-			apiKey: apiKey,
+			apiKey:     apiKey,
 			databaseId: databaseId,
-			viewId: viewId,
 		},
 		client: &http.Client{},
 	}
@@ -37,8 +35,8 @@ func NewNotionClient(apiKey string, databaseId string, viewId string) *NotionCli
 func (c NotionClient) buildRequest(method string, path string, body io.Reader) *http.Request {
 	uri := API_BASE_URL + path
 
-	req, _ := http.NewRequest(method , uri, body)
-	req.Header.Set("Authorization", "Bearer " + c.config.apiKey)
+	req, _ := http.NewRequest(method, uri, body)
+	req.Header.Set("Authorization", "Bearer "+c.config.apiKey)
 	req.Header.Set("Notion-Version", "2022-06-28")
 	req.Header.Set("Content-Type", "application/json")
 
@@ -67,13 +65,13 @@ func (c NotionClient) GetDatabase() {
 }
 
 type PostArticleRequest struct {
-	Parent Parent `json:"parent"`
+	Parent     Parent     `json:"parent"`
 	Properties Properties `json:"properties"`
 }
 
 type Properties struct {
 	Title Title `json:"title,omitempty"`
-	Link Link `json:"link,omitempty"`
+	Link  Link  `json:"link,omitempty"`
 }
 
 type Title struct {
@@ -104,7 +102,7 @@ func (c NotionClient) buildPostArticleBody(title string, link string) PostArticl
 		Properties: Properties{
 			Title: Title{
 				[]Text{
-					{ Content: Content{Content: title} },
+					{Content: Content{Content: title}},
 				},
 			},
 			Link: Link{
